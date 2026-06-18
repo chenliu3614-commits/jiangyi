@@ -1,0 +1,259 @@
+% ============================================================
+% 厉飞雨数学 · 专题模板
+% 用法：复制本文件，修改标题、知识点、题目内容即可
+% ============================================================
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{needspace}
+\usepackage{multicol}
+\usepackage{tikz}
+\usepackage{pgffor}
+\usetikzlibrary{calc}
+
+% === 配色方案 ===
+\definecolor{primary}{RGB}{0,100,180} % 主色-深蓝
+\definecolor{accent}{RGB}{220,80,60} % 强调-珊瑚红
+\definecolor{teal}{RGB}{0,140,130} % 辅助-青色
+\definecolor{orange}{RGB}{230,130,40} % 橙色
+\definecolor{lightblue}{RGB}{235,245,255} % 浅蓝背景
+\definecolor{lightyellow}{RGB}{255,250,235}
+\definecolor{lightgreen}{RGB}{235,250,240}
+\definecolor{lightred}{RGB}{255,242,240}
+
+% === 标题样式 ===
+\ctexset{
+ section = {
+ format = \Large\bfseries\color{primary},
+ name = {,},
+ aftername = \hspace{0.5em},
+ beforeskip = 1.2em,
+ afterskip = 0.8em,
+ },
+ subsection = {
+ format = \large\bfseries\color{teal},
+ beforeskip = 0.8em,
+ afterskip = 0.5em,
+ }
+}
+
+% === 页眉页脚 ===
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{primary}\bfseries 专题XX\ $\cdot$\ 【在此填写专题名】}
+\fancyhead[R]{\small\thepage}
+\fancyfoot[C]{\small\color{gray}--- 厉飞雨数学 ---}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+% === 自定义盒子 ===
+\tcbuselibrary{skins,breakable}
+
+% 知识点盒子（蓝）
+\newtcolorbox{knowledge}[]{
+ colback=lightblue, colframe=primary,
+ fonttitle=\bfseries\color{white},
+ title={#1},
+ arc=3mm, boxrule=0.8pt,
+ left=8pt, right=8pt, top=6pt, bottom=6pt,
+ breakable
+}
+
+% 例题盒子（粉，可跨页）
+\newtcolorbox{example}[]{
+ colback=white, colframe=red!20,
+ fonttitle=\bfseries\color{red!50!black},
+ colbacktitle=red!10,
+ title={#1},
+ arc=2mm, boxrule=0.4pt,
+ left=8pt, right=8pt, top=5pt, bottom=5pt,
+ breakable
+}
+
+% 训练盒子（粉）
+\newtcolorbox{practice}[]{
+ colback=white, colframe=red!20,
+ fonttitle=\bfseries\color{red!50!black},
+ colbacktitle=red!10,
+ title={#1},
+ arc=2mm, boxrule=0.4pt,
+ left=8pt, right=8pt, top=5pt, bottom=5pt,
+ breakable
+}
+
+% 易错盒子（红）
+\newtcolorbox{warning}[]{
+ colback=lightred, colframe=accent,
+ fonttitle=\bfseries\color{white},
+ title={\color{white}#1},
+ arc=2mm, boxrule=0.6pt,
+ left=8pt, right=8pt, top=5pt, bottom=5pt,
+ breakable
+}
+
+% === 公式高亮 ===
+\newcommand{\key}{\textcolor{accent}{\textbf{#1}}}
+\newcommand{\formula}{\textcolor{primary}{\textbf{$#1$}}}
+
+% === 题型编号装饰 ===
+\DeclareRobustCommand{\typetag}{%
+ \tikz[baseline=(X.base)]{
+ \node[fill=primary, text=white, rounded corners=3pt,
+ inner xsep=6pt, inner ysep=2pt, font=\small\bfseries] (X) {#1};
+ }%
+}
+
+% === 选项两列排列 ===
+\newcommand{\choices}{%
+ \par\vspace{3pt}%
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}A．#1\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}B．#2\end{minipage}\\[4pt]
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}C．#3\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}D．#4\end{minipage}%
+ \par\vspace{2pt}%
+}
+
+% === 子题网格 ===
+\newcommand{\subqs}{%
+ \par\vspace{3pt}%
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}#2\end{minipage}\\[5pt]
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#3\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}#4\end{minipage}%
+ \par\vspace{2pt}%
+}
+\newcommand{\subqsThree}{%
+ \par\vspace{3pt}%
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}#2\end{minipage}\\[5pt]
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#3\end{minipage}%
+ \par\vspace{2pt}%
+}
+\newcommand{\subqsFive}{%
+ \par\vspace{3pt}%
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}#2\end{minipage}\\[5pt]
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#3\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}#4\end{minipage}\\[5pt]
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#5\end{minipage}%
+ \par\vspace{2pt}%
+}
+
+% === 防跨页 ===
+\newcommand{\qitem}{\needspace{#1\baselineskip}\item}
+
+% === 间距 ===
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt plus 1pt minus 1pt}
+\setlist[itemize]{nosep,left=0pt .. 2em}
+
+% ════════════════════════════════════════════════════════════
+\begin{document}
+
+% === 封面 ===
+\begin{titlepage}
+\begin{center}
+\vspace*{3cm}
+
+{\tikz{
+ \node[fill=primary, text=white, rounded corners=8pt,
+ inner xsep=20pt, inner ysep=10pt,
+ font=\Huge\bfseries] {【在此填写专题名】};
+}}
+
+\vspace{1.5cm}
+
+{\Large\color{gray} 专题XX\ $\cdot$\ 【在此填写年级】}
+
+\vspace{2cm}
+
+\begin{tikzpicture}
+ \node[draw=primary, line width=1pt, rounded corners=5pt,
+ inner sep=15pt, text width=10cm, align=left,
+ font=\large] {
+ \textcolor{primary}{\textbf{本讲要点}}\\[8pt]
+ \textcolor{teal}{$\bullet$} 要点1\\[4pt]
+ \textcolor{teal}{$\bullet$} 要点2\\[4pt]
+ \textcolor{teal}{$\bullet$} 要点3\\[4pt]
+ \textcolor{teal}{$\bullet$} 要点4
+ };
+\end{tikzpicture}
+
+\vfill
+{\large\color{gray} \today}
+\end{center}
+\end{titlepage}
+
+% ========================================
+% 知识点部分
+% ========================================
+
+\section*{\color{primary}\Large $\blacktriangleright$\ 知识要点}
+
+% --- 知识点1 ---
+\begin{knowledge}[\color{white}知识点1\ $\cdot$\ 【标题】]
+在此填写知识点内容。
+
+\vspace{0.3em}
+\textbf{性质}：
+\begin{enumerate}[leftmargin=1.8em]
+ \item 性质1：\key{关键词}；
+ \item 性质2。
+\end{enumerate}
+\end{knowledge}
+
+% --- 知识点2 ---
+\begin{knowledge}[\color{white}知识点2\ $\cdot$\ 【标题】]
+在此填写知识点内容。
+\end{knowledge}
+
+% ========================================
+% 题型部分
+% ========================================
+
+\subsection*{\typetag{题型01}\ 【题型标题】}
+
+\begin{example}[例题]
+【例1】题目内容
+\end{example}
+
+\begin{practice}[跟踪训练]
+\textbf{1.} 题目内容
+\end{practice}
+
+% ========================================
+% 综合测试
+% ========================================
+
+\newpage
+\section*{\color{primary}\Large $\blacktriangleright$\ 综合测试}
+
+\subsection*{一、选择题}
+
+\subsection*{二、填空题}
+
+\subsection*{三、解答题}
+
+\end{document}

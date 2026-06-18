@@ -1,0 +1,856 @@
+% ============================================================
+% 专题02 立方根
+% 风格：参考 厉飞雨数学 模板
+% ============================================================
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{needspace}
+\usepackage{multicol}
+\usepackage{tikz}
+\usepackage{pgffor}
+\usetikzlibrary{calc}
+
+% === 配色方案 ===
+\definecolor{primary}{RGB}{0,100,180} % 主色-深蓝
+\definecolor{accent}{RGB}{220,80,60} % 强调-珊瑚红
+\definecolor{teal}{RGB}{0,140,130} % 辅助-青色
+\definecolor{orange}{RGB}{230,130,40} % 橙色
+\definecolor{lightblue}{RGB}{235,245,255} % 浅蓝背景
+\definecolor{lightyellow}{RGB}{255,250,235}
+\definecolor{lightgreen}{RGB}{235,250,240}
+\definecolor{lightred}{RGB}{255,242,240}
+
+% === 标题样式 ===
+\ctexset{
+ section = {
+ format = \Large\bfseries\color{primary},
+ name = {,},
+ aftername = \hspace{0.5em},
+ beforeskip = 1.2em,
+ afterskip = 0.8em,
+ },
+ subsection = {
+ format = \large\bfseries\color{teal},
+ beforeskip = 0.8em,
+ afterskip = 0.5em,
+ }
+}
+
+% === 页眉页脚 ===
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{primary}\bfseries 专题02\ $\cdot$\ 立方根}
+\fancyhead[R]{\small\thepage}
+\fancyfoot[C]{\small\color{gray}--- 厉飞雨数学 ---}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+% === 自定义盒子 ===
+\tcbuselibrary{skins,breakable}
+
+% 知识点盒子（蓝）
+\newtcolorbox{knowledge}[]{
+ colback=lightblue, colframe=primary,
+ fonttitle=\bfseries\color{white},
+ title={#1},
+ arc=3mm, boxrule=0.8pt,
+ left=8pt, right=8pt, top=6pt, bottom=6pt,
+ breakable
+}
+
+% 例题盒子（粉，可跨页）
+\newtcolorbox{example}[]{
+ colback=white, colframe=red!20,
+ fonttitle=\bfseries\color{red!50!black},
+ colbacktitle=red!10,
+ title={#1},
+ arc=2mm, boxrule=0.4pt,
+ left=8pt, right=8pt, top=5pt, bottom=5pt,
+ breakable
+}
+
+% 训练盒子（粉）
+\newtcolorbox{practice}[]{
+ colback=white, colframe=red!20,
+ fonttitle=\bfseries\color{red!50!black},
+ colbacktitle=red!10,
+ title={#1},
+ arc=2mm, boxrule=0.4pt,
+ left=8pt, right=8pt, top=5pt, bottom=5pt,
+ breakable
+}
+
+% 易错盒子（红）
+\newtcolorbox{warning}[]{
+ colback=lightred, colframe=accent,
+ fonttitle=\bfseries\color{white},
+ title={\color{white}#1},
+ arc=2mm, boxrule=0.6pt,
+ left=8pt, right=8pt, top=5pt, bottom=5pt,
+ breakable
+}
+
+% === 公式高亮 ===
+\newcommand{\key}{\textcolor{accent}{\textbf{#1}}}
+\newcommand{\formula}{\textcolor{primary}{\textbf{$#1$}}}
+
+% === 题型编号装饰 ===
+\DeclareRobustCommand{\typetag}{%
+ \tikz[baseline=(X.base)]{
+ \node[fill=primary, text=white, rounded corners=3pt,
+ inner xsep=6pt, inner ysep=2pt, font=\small\bfseries] (X) {#1};
+ }%
+}
+
+% === 选项两列排列 ===
+\newcommand{\choices}{%
+ \par\vspace{2pt}%
+ \noindent\begin{tabularx}{\textwidth}{@{}X X@{}}
+ A．#1 & B．#2 \\
+ C．#3 & D．#4 \\
+ \end{tabularx}%
+ \par\vspace{2pt}%
+}
+
+% === 子题网格 ===
+\newcommand{\subqs}{%
+ \par\vspace{3pt}%
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}#2\end{minipage}\\[5pt]
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#3\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}#4\end{minipage}%
+ \par\vspace{2pt}%
+}
+\newcommand{\subqsThree}{%
+ \par\vspace{3pt}%
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}#2\end{minipage}\\[5pt]
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#3\end{minipage}%
+ \par\vspace{2pt}%
+}
+\newcommand{\subqsFive}{%
+ \par\vspace{3pt}%
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}#2\end{minipage}\\[5pt]
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#3\end{minipage}%
+ \hfill
+ \begin{minipage}[t]{0.47\textwidth}#4\end{minipage}\\[5pt]
+ \noindent
+ \begin{minipage}[t]{0.47\textwidth}#5\end{minipage}%
+ \par\vspace{2pt}%
+}
+
+% === 填空留白 ===
+\newcommand{\fillblank}[2cm]{\underline{\hspace{#1}}}
+
+% === 解答留白 ===
+\newcommand{\vspace{2\baselineskip}
+ \solutionblank}{%
+ \par\vspace{4pt}%
+ \foreach \i in {1,...,#1}{%
+ \par\vspace{10pt}%
+ }%
+ \vspace{-2pt}%
+}
+
+% === 防跨页 ===
+\newcommand{\qitem}{\needspace{#1\baselineskip}\item}
+
+% === 间距 ===
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt plus 1pt minus 1pt}
+\setlist[itemize]{nosep,left=0pt .. 2em}
+
+% ════════════════════════════════════════════════════════════
+\begin{document}
+
+% === 封面 ===
+\begin{titlepage}
+\begin{center}
+\vspace*{3cm}
+
+{\tikz{
+ \node[fill=primary, text=white, rounded corners=8pt,
+ inner xsep=20pt, inner ysep=10pt,
+ font=\Huge\bfseries] {立方根};
+}}
+
+\vspace{1.5cm}
+
+{\Large\color{gray} 专题02\ $\cdot$\ 七年级数学}
+
+\vspace{2cm}
+
+\begin{tikzpicture}
+ \node[draw=primary, line width=1pt, rounded corners=5pt,
+ inner sep=15pt, text width=10cm, align=left,
+ font=\large] {
+ \textcolor{primary}{\textbf{本讲要点}}\\[8pt]
+ \textcolor{teal}{$\bullet$} 立方根的概念与性质\\[4pt]
+ \textcolor{teal}{$\bullet$} 开立方运算\\[4pt]
+ \textcolor{teal}{$\bullet$} 立方根小数点移动规律\\[4pt]
+ \textcolor{teal}{$\bullet$} 平方根与立方根的区别与联系
+ };
+\end{tikzpicture}
+
+\vfill
+{\large\color{gray} \today}
+\end{center}
+\end{titlepage}
+
+% ========================================
+% 知识点部分
+% ========================================
+
+\section*{\color{primary}\Large $\blacktriangleright$\ 知识要点}
+
+% --- 知识点1 ---
+\begin{knowledge}[知识点1\ $\cdot$\ 立方根]
+\textbf{定义}：如果一个数 $x$ 的立方等于 $a$，即 $\formula{x^{3}=a}$，那么这个数 $x$ 叫作 $a$ 的\key{立方根}（也称为\textbf{三次方根}）。$a$ 叫做\textbf{被开方数}。
+
+\vspace{0.3em}
+\textbf{表示方法}：用 $\formula{\sqrt{a}}$ 表示，其中 $a$ 是被开方数，$3$ 是\textbf{根指数}。
+
+\vspace{0.3em}
+\textbf{注意}：根指数 $3$ \key{不能省略}，这是与平方根的重要区别。$\sqrt{a}$ 读作"$a$ 的立方根"或"$a$ 的三次方根"。
+\end{knowledge}
+
+% --- 知识点2 ---
+\begin{knowledge}[知识点2\ $\cdot$\ 立方根的性质]
+\begin{enumerate}[leftmargin=1.8em]
+ \item 正数的立方根是\key{正数}，$0$ 的立方根是 $0$，负数的立方根是\key{负数}；
+ \item \key{任何数}都有立方根，一个数的立方根有且只有\textbf{一个}；
+ \item 立方根等于本身的数有 $0$ 和 $\pm 1$；
+ \item 互为相反数的两个数，它们的立方根也\key{互为相反数}，即
+ $\formula{\sqrt{-a}=-\sqrt{a}}$；
+ \item $\formula{\sqrt{a^{3}}=a}$，$\formula{(\sqrt{a})^{3}=a}$。
+\end{enumerate}
+\end{knowledge}
+
+% --- 知识点3 ---
+\begin{knowledge}[知识点3\ $\cdot$\ 开立方]
+\textbf{定义}：求一个数的立方根的运算叫做\key{开立方}。
+
+\vspace{0.3em}
+\textbf{逆运算关系}：开立方与立方\key{互为逆运算}。利用这个关系可以求一个数的立方根，也可以进行立方根的验算。
+
+\vspace{0.3em}
+\textbf{注意事项}：求带分数的立方根时，要先将带分数化成\key{假分数}，再求立方根。
+\end{knowledge}
+
+% --- 知识点4 ---
+\begin{knowledge}[知识点4\ $\cdot$\ 小数点移动规律]
+被开方数的小数点向右或者向左移动 \textbf{3 位}，它的立方根的小数点就相应地向右或者向左移动 \textbf{1 位}。
+
+\begin{center}
+\begin{tikzpicture}
+ \node[draw=primary, fill=lightblue, rounded corners=5pt,
+ inner sep=8pt, text width=12cm, align=center, font=\small] {
+ \textbf{规律}：被开方数的小数点向右（或向左）移动\textbf{3 位}，
+ 它的立方根的小数点相应地向右（或向左）移动\textbf{1 位}。
+ };
+\end{tikzpicture}
+\end{center}
+
+例如：$\sqrt{0.001}=0.1$，$\sqrt{1}=1$，$\sqrt{1000}=10$，$\sqrt{1000000}=100$。
+\end{knowledge}
+
+% --- 知识点5 ---
+\begin{knowledge}[知识点5\ $\cdot$\ 平方根与立方根的区别与联系]
+\begin{center}
+\begin{tabular}{lcc}
+ \toprule
+ & \textbf{平方根} & \textbf{立方根} \\
+ \midrule
+ 表示方法 & $\pm\sqrt{a}$ & $\sqrt{a}$ \\
+ 个数 & 正数有 \textbf{2} 个 & 任何数有 \textbf{1} 个 \\
+ 正负 & 一正一负（$0$ 除外） & 与被开方数同号 \\
+ 被开方数要求 & $a\geq 0$ & 任何实数 \\
+ 非负性 & 算术平方根 $\geq 0$ & 无此限制 \\
+ 互逆运算 & 开平方与平方互逆 & 开立方与立方互逆 \\
+ \bottomrule
+\end{tabular}
+\end{center}
+\end{knowledge}
+
+\begin{warning}[\color{white}易错警示]
+\begin{itemize}[leftmargin=1.5em]
+ \item 立方根中的根指数 $3$ \textbf{不能省略}，$\sqrt{a}$ 不是 $\sqrt{a}$。
+ \item 正数有一个正的立方根，\textbf{没有负的立方根}，这与正数有两个平方根不同。
+ \item 负数\textbf{有}立方根（为负数），但负数\textbf{没有}平方根。
+ \item $\sqrt{-a}=-\sqrt{a}$，即"负号可以提到根号外面"。
+\end{itemize}
+\end{warning}
+
+\newpage
+
+% ============================================================
+\subsection*{\typetag{题型01}\ 立方根概念辨析}
+% ============================================================
+
+\begin{example}[例题]
+\textbf{【例1】} $\sqrt{-8}$ 等于（\quad\quad）
+
+\choices{$-2$}{$2$}{$\pm 2$}{$-4$}
+
+\medskip
+\textbf{【例2】} 填空：
+
+\hspace{2em}(1) $27$ 的立方根是 $\underline{\hspace{1.5cm}}$；
+
+\hspace{2em}(2) $-64$ 的立方根是 $\underline{\hspace{1.5cm}}$。
+
+\medskip
+\textbf{【例3】} 判断正误（正确的打"$\checkmark$"，错误的打"$\times$"）：
+
+\hspace{2em}(1) 一个数的立方根等于它本身，这个数一定是 $0$ 或 $\pm 1$。（\quad）
+
+\hspace{2em}(2) 互为相反数的两个数的立方根也互为相反数。（\quad）
+
+\hspace{2em}(3) $\sqrt{a}$ 表示 $a$ 的立方根。（\quad）
+
+\hspace{2em}(4) 负数没有立方根。（\quad）
+\vspace{2\baselineskip}
+\end{example}
+
+\begin{practice}[跟踪训练]
+\textbf{1.} 下列语句正确的是（\quad\quad）
+
+\choices{任何数都有立方根}{一个数的立方根只有一个}{立方根是它本身的数是 $0$}{立方根等于它本身的数是 $0$ 和 $\pm 1$}
+
+\medskip
+\textbf{2.} $\sqrt{64}$ 的值是（\quad\quad）
+
+\choices{$4$}{$8$}{$\pm 4$}{$16$}
+
+\medskip
+\textbf{3.} 填空：$-\sqrt{-27}=$\underline{\hspace{1cm}}，$\sqrt{-0.001}=$\underline{\hspace{1cm}}。
+
+\medskip
+\textbf{4.} 下列各数中，立方根等于它本身的数是（\quad\quad）
+
+\choices{$0$，$1$，$-1$，$8$}{$0$，$1$，$-1$}{$0$，$1$，$-1$，$2$}{$0$，$1$，$8$}
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型02}\ 求一个数的立方根}
+% ============================================================
+
+\begin{example}[例题]
+\textbf{【例4】} 求下列各数的立方根：
+
+\hspace{2em}(1) $-8$；\quad (2) $16$ 的平方根。
+\vspace{2\baselineskip}
+
+\textbf{【例5】} 求下列各式的值：
+
+\subqsFive{(1)\,$\sqrt{125}$}{(2)\,$\sqrt{-8}$}{(3)\,$-\sqrt{\dfrac{1}{8}}$}{(4)\,$\sqrt{0.027}$}{(5)\,$\sqrt{-27}$}{(6)\,$\sqrt{-27^{3}}$}
+
+\medskip
+\textbf{【例6】} 已知 $x^{3}=8$，求 $x$ 的值。
+\end{example}
+
+\begin{practice}[跟踪训练]
+\textbf{1.} 求下列各数的立方根：
+
+\subqs{(1)\,$0$}{(2)\,$-1$}{(3)\,$\dfrac{8}{27}$}{(4)\,$-125$}
+
+\medskip
+\textbf{2.} 求下列各式的值：
+
+\subqsThree{(1)\,$\sqrt{-64}$}{(2)\,$\sqrt{\dfrac{64}{125}}$}{(3)\,$-\sqrt{0.008}$}
+
+\medskip
+\textbf{3.} 求下列各式的值：
+
+\subqsThree{(1)\,$\sqrt{(-2)^{3}}$}{(2)\,$(\sqrt{-8})^{3}$}{(3)\,$\sqrt{343}-\sqrt{-8}$}
+
+\medskip
+\textbf{4.} 若 $\sqrt{a}=2$，则 $a=$\underline{\hspace{1cm}}。
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型03}\ 已知立方根求原数}
+% ============================================================
+
+\begin{example}[例题]
+\textbf{【例7】} 已知某数的立方根是 $2$，求这个数的平方根。
+
+\medskip
+\textbf{【例8】} 已知 $a-1$ 的立方根是 $-3$，$b+2$ 的算术平方根是 $4$。
+
+\hspace{2em}(1) 求 $a$、$b$ 的值；
+
+\hspace{2em}(2) 求 $a+b$ 的立方根；
+
+\hspace{2em}(3) 求 $a+b$ 的平方根。
+\vspace{2\baselineskip}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{practice}[跟踪训练]
+\textbf{1.} 已知某数的立方根是 $-3$，求这个数。
+
+\medskip
+\textbf{2.} 已知 $2a-5$ 的立方根是 $-1$，$3b-1$ 的算术平方根是 $3$，求 $a+b$ 的值。
+
+\medskip
+\textbf{3.} 已知 $\sqrt{1-2x}=3$，求 $x$ 的值。
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型04}\ 立方根的性质}
+% ============================================================
+
+\begin{example}[例题]
+\textbf{【例9】} 下列各式正确的是（\quad\quad）
+
+\choices{$\sqrt{-8}=2$}{$-\sqrt{8}=-2$}{$\sqrt{-8}=\pm 2$}{$\sqrt{8}=-2$}
+
+\medskip
+\textbf{【例10】} 已知 $\sqrt{x}=y$，其中 $x$ 是 $a$ 的立方根，$a$ 是 $64$ 的相反数，求 $y$ 的值。
+
+\medskip
+\textbf{【例11】} 已知 $a$ 与 $b$ 互为相反数，求 $\sqrt{a}+\sqrt{b}$ 的值。
+\end{example}
+
+\begin{practice}[跟踪训练]
+\textbf{1.} 若 $\sqrt{a}+\sqrt{b}=0$，则 $a$ 与 $b$ 的关系是（\quad\quad）
+
+\choices{$a=b$}{$a+b=0$}{$a=b=0$}{以上都对}
+
+\medskip
+\textbf{2.} 计算：$\sqrt{-27}+\sqrt{125}-\sqrt{-8}=$\underline{\hspace{1cm}}。
+
+\medskip
+\textbf{3.} 已知 $\sqrt{2a+1}$ 与 $\sqrt{3-4b}$ 互为相反数，求 $\dfrac{a}{b}$ 的值。
+
+\medskip
+\textbf{4.} 填空：
+
+\hspace{2em}(1) $\sqrt{0}=$\underline{\hspace{1cm}}；\quad (2) $\sqrt{1}=$\underline{\hspace{1cm}}；\quad (3) $\sqrt{-1}=$\underline{\hspace{1cm}}。
+
+\medskip
+\textbf{5.} 如果 $\sqrt{a}=\sqrt{b}$，那么 $a$ 与 $b$ 的关系是\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{6.} 若 $|a|+\sqrt{b}=0$，则 $a$、$b$ 的关系是（\quad\quad）
+
+\choices{$a=0$ 且 $b=0$}{$a=0$ 或 $b=0$}{$a=b$}{无法确定}
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型05}\ 利用立方根解方程}
+% ============================================================
+
+\begin{example}[例题]
+\textbf{【例12】} 求下列各式中 $x$ 的值：
+
+\hspace{2em}(1) $x^{3}=-27$；
+
+\hspace{2em}(2) $(x-1)^{3}=64$；
+
+\hspace{2em}(3) $8x^{3}+27=0$。
+\vspace{2\baselineskip}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{practice}[跟踪训练]
+\textbf{1.} 求下列各式中 $x$ 的值：
+
+\subqs{(1)\,$x^{3}=125$}{(2)\,$(x+2)^{3}=-8$}{(3)\,$27x^{3}=1$}{(4)\,$(2x-3)^{3}=27$}
+
+\medskip
+\textbf{2.} 已知 $x^{3}-8=0$，求 $x+1$ 的值。
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型06}\ 根据立方根化简求值}
+% ============================================================
+
+\begin{example}[例题]
+\textbf{【例13】} $\sqrt{(-5)^{3}}$ 的值是（\quad\quad）
+
+\choices{$5$}{$-5$}{$\pm 5$}{$125$}
+
+\medskip
+\textbf{【例14】} 计算下列各式：
+
+\subqs{(1)\,$\sqrt{-27}+\sqrt{64}$}{(2)\,$\sqrt{-\dfrac{8}{27}}\times\sqrt{27}$}{(3)\,$\sqrt{1000}-\sqrt{-1}$}{(4)\,$(\sqrt{-27})^{2}+\sqrt{8}$}
+\end{example}
+
+\begin{practice}[跟踪训练]
+\textbf{1.} 计算：
+
+\subqs{(1)\,$\sqrt{-125}+\sqrt{216}$}{(2)\,$-\sqrt{\dfrac{8}{27}}\times\sqrt{-8}$}{(3)\,$\sqrt{343}-\sqrt{-125}$}
+
+\medskip
+\textbf{2.} 填空：$\sqrt{\sqrt{729}}=$\underline{\hspace{1cm}}，$\sqrt{(\sqrt{-8})^{3}}=$\underline{\hspace{1cm}}。
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型07}\ 平方根与立方根综合}
+% ============================================================
+
+\begin{example}[例题]
+\textbf{【例15】} 已知正数 $x$ 满足 $x^{3}=27$。
+
+\hspace{2em}(1) 求 $x$ 的值；
+
+\hspace{2em}(2) 求 $x$ 的立方根；
+
+\hspace{2em}(3) 求 $x$ 的算术平方根。
+\vspace{2\baselineskip}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{practice}[跟踪训练]
+\textbf{1.} 已知一个数的立方是 $-125$，求这个数的平方根。
+
+\medskip
+\textbf{2.} 已知 $\sqrt{a}=3$，$\sqrt{b}=2$，求 $\sqrt{a}+\sqrt{b}$ 的值。
+
+\medskip
+\textbf{3.} 若 $x^{2}=4$，$y^{3}=-8$，求 $x+y$ 的值。
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型08}\ 规律探究}
+% ============================================================
+
+\begin{example}[例题]
+\textbf{【例16】} 观察下列各式：
+
+$\sqrt{2\times\dfrac{2}{7}}=2\sqrt{\dfrac{2}{7}}$，$\sqrt{3\times\dfrac{3}{26}}=3\sqrt{\dfrac{3}{26}}$，$\sqrt{4\times\dfrac{4}{63}}=4\sqrt{\dfrac{4}{63}}$。
+
+按照以上规律，第 $n$ 个等式为（\quad\quad）
+
+\choices{$\sqrt{n\times\dfrac{n}{n^{3}-1}}=n\sqrt{\dfrac{n}{n^{3}-1}}$}{$\sqrt{n\times\dfrac{n}{n^{3}+1}}=n\sqrt{\dfrac{n}{n^{3}+1}}$}{$\sqrt{n\times\dfrac{n}{n^{3}-1}}=\sqrt{\dfrac{n}{n^{3}-1}}$}{$\sqrt{n\times\dfrac{n}{n^{3}+1}}=n\sqrt{\dfrac{n}{n^{3}-1}}$}
+
+\medskip
+\textbf{【例17】} 观察下列等式，回答问题：
+
+$\sqrt{2+\dfrac{2}{7}}=2\sqrt{\dfrac{2}{7}}$，$\sqrt{3+\dfrac{3}{26}}=3\sqrt{\dfrac{3}{26}}$，$\sqrt{4+\dfrac{4}{63}}=4\sqrt{\dfrac{4}{63}}$。
+
+\hspace{2em}(1) 请写出第 $4$ 个等式；
+
+\hspace{2em}(2) 请写出第 $n$ 个等式（$n\geq 2$ 的整数）；
+
+\hspace{2em}(3) 请你从第 $2$ 个等式开始，验证 $n=2$ 时等式是否成立。
+\vspace{2\baselineskip}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{practice}[跟踪训练]
+\textbf{1.} 观察下列各式：
+
+$\sqrt{-1\times\dfrac{1}{7}}=-1\times\sqrt{\dfrac{1}{7}}$，$\sqrt{-2\times\dfrac{2}{15}}=-2\times\sqrt{\dfrac{2}{15}}$，$\sqrt{-3\times\dfrac{3}{27}}=-3\times\sqrt{\dfrac{3}{27}}$。
+
+根据以上等式的一般规律，第 $n$ 个等式为（\quad\quad）
+
+\medskip
+\textbf{2.} 观察下列等式：
+
+$1^{3}=1$，$2^{3}=1+3+5+7$，$3^{3}=1+3+5+7+9+11+13$。
+
+\hspace{2em}(1) $4^{3}=$\underline{\hspace{3cm}}；
+
+\hspace{2em}(2) $5^{3}$ 从 $1$ 开始连续 \underline{\hspace{1cm}} 个奇数之和；
+
+\hspace{2em}(3) $n^{3}$ 从 $1$ 开始连续 \underline{\hspace{1cm}} 个奇数之和。
+
+\medskip
+\textbf{3.} 按如下规律：
+
+$\sqrt{2\dfrac{2}{7}}=2\sqrt{\dfrac{2}{7}}$，$\sqrt{3\dfrac{3}{26}}=3\sqrt{\dfrac{3}{26}}$，$\sqrt{4\dfrac{4}{63}}=4\sqrt{\dfrac{4}{63}}$。
+
+\hspace{2em}(1) 写出第 $5$ 个等式；
+
+\hspace{2em}(2) 写出第 $n$ 个等式（用含 $n$ 的等式表示）。
+\vspace{2\baselineskip}
+
+\medskip
+\textbf{4.} 观察规律：$\sqrt{1\times 2\times 3+1}=1+1$，$\sqrt{2\times 3\times 4+1}=2+1$，$\sqrt{3\times 4\times 5+1}=3+1$。
+
+\hspace{2em}(1) 写出第 $4$ 个等式；
+
+\hspace{2em}(2) 用含 $n$ 的等式表示这个规律。
+\vspace{2\baselineskip}
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型09}\ 实际应用}
+% ============================================================
+
+\begin{example}[例题]
+\textbf{【例18】} 一个正方体魔方的体积为 $216\,\text{cm}^{3}$。
+
+\hspace{2em}(1) 求这个魔方的棱长；
+
+\hspace{2em}(2) 如果要制作一个体积为 $343\,\text{cm}^{3}$ 的大魔方，其棱长比原来大多少？
+\vspace{2\baselineskip}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{practice}[跟踪训练]
+\textbf{1.} 已知一个正方体的体积是 $1000\,\text{cm}^{3}$，求这个正方体的棱长。
+
+\medskip
+\textbf{2.} 一个正方体容器的容积是 $512\,\text{mL}$，求这个正方体容器的棱长。
+
+\medskip
+\textbf{3.} 有两个正方体，它们的体积分别是 $64\,\text{cm}^{3}$ 和 $216\,\text{cm}^{3}$，求它们的棱长之差。
+
+\medskip
+\textbf{4.} 用一个体积为 $216\,\text{cm}^{3}$ 的正方体铁块熔铸成一个长方体，若长方体的底面是一个边长为 $4\,\text{cm}$ 的正方形，求这个长方体的高（精确到 $0.1\,\text{cm}$）。
+
+\medskip
+\textbf{5.} 一个房间的长、宽、高分别为 $5\,\text{m}$、$4\,\text{m}$、$3\,\text{m}$，该房间的体积为一个正方体房间体积的 $60$ 倍，求这个正方体房间的棱长。
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型10}\ 综合提升}
+% ============================================================
+
+\begin{example}[例题]
+\textbf{【例19】} 观察下列各式：
+
+$\sqrt{2-\dfrac{2}{9}}=2\sqrt{\dfrac{2}{9}}$，$\sqrt{3-\dfrac{3}{28}}=3\sqrt{\dfrac{3}{28}}$，$\sqrt{4-\dfrac{4}{65}}=4\sqrt{\dfrac{4}{65}}$。
+
+按此规律，第 $n$ 个等式为\underline{\hspace{5cm}}。
+
+\medskip
+\textbf{【例20】} 根据立方根的意义，求 $a$ 的取值范围：
+
+\hspace{2em}(1) $\sqrt{a-1}$ 中，$a$ 的取值范围为\underline{\hspace{3cm}}；
+
+\hspace{2em}(2) $\sqrt{a^{2}+1}$ 中，$a$ 的取值范围为\underline{\hspace{3cm}}。
+
+\textbf{【例21】}（拓展）\textbf{类比探索}：参考平方根与立方根的知识，试回答以下问题：
+
+\hspace{2em}(1) 正数的 $4$ 次方根有几个？$0$ 的 $4$ 次方根是什么？负数有没有 $4$ 次方根？
+
+\hspace{2em}(2) 正数的 $5$ 次方根有几个？$0$ 的 $5$ 次方根是什么？负数的 $5$ 次方根是什么？
+\vspace{2\baselineskip}
+\vspace{2\baselineskip}
+ \solutionblank
+
+\textbf{【例22】} 在一块面积为 $289\,\text{cm}^{2}$ 的正方形卡纸上，想裁出一个面积为 $100\,\text{cm}^{2}$ 的正方形。
+
+\hspace{2em}(1) 正方形卡纸的边长是多少厘米？
+
+\hspace{2em}(2) 能否从这块正方形卡纸上裁出面积为 $100\,\text{cm}^{2}$ 的正方形？请说明理由；
+
+\hspace{2em}(3) 如果要裁出一个面积为 $200\,\text{cm}^{2}$ 的正方形，能否裁出？请说明理由。
+\vspace{2\baselineskip}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+
+\newpage
+
+% ============================================================
+% 综合测试
+% ============================================================
+\section*{\color{primary}\Large $\blacktriangleright$\ 综合测试}
+
+% --- 一、选择题 ---
+
+\subsection*{一、选择题}
+
+\textbf{1.}若一个数的立方根是 $2$，则这个数是（\quad\quad）
+
+\choices{$\sqrt{2}$}{$8$}{$\sqrt{2}$}{$-8$}
+
+\medskip
+\textbf{2.}使 $\sqrt{x-1}$ 有意义的字母 $x$ 的取值范围（\quad\quad）
+
+\choices{$x>1$}{$x\geq 1$}{$x<1$}{全体实数}
+
+\medskip
+\textbf{3.}如果 $a^{3}=b^{3}$，那么 $a$ 与 $b$ 的关系是（\quad\quad）
+
+\choices{$a=b$}{$a=-b$}{$|a|=|b|$}{不能确定}
+
+\medskip
+\textbf{4.}下列说法正确的是（\quad\quad）
+
+\choices{如果一个数的立方根等于它本身，那么这个数一定为零}{如果一个数有立方根，那么这个数也一定有平方根}{任何数的立方根都只有一个}{负数没有立方根}
+
+\medskip
+\textbf{5.}下列关于立方根的说法，正确的是（\quad\quad）
+
+\choices{$8$ 的立方根是 $\pm 2$}{立方根等于它本身的数有 $-1$，$0$，$1$}{$-27$ 的立方根为 $9$}{一个数的立方根不是正数就是负数}
+
+\medskip
+\textbf{6.}已知 $\sqrt{a}+\sqrt{b}=0$，则下列各式成立的是（\quad\quad）
+
+\choices{$a+b=0$}{$a=b$}{$a^{3}+b^{3}=0$}{$a^{3}=b^{3}$}
+
+% --- 二、填空题 ---
+
+\subsection*{二、填空题}
+
+\textbf{7.}化简 $\sqrt{(-5)^{3}}$ 的结果是\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{8.}方程 $x^{3}=-8$ 的根是\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{9.}方程 $(x-1)^{3}=27$ 的解是\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{10.}已知 $\sqrt{x}=-2$，则 $x$ 的值为\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{11.}已知 $a^{3}=-64$，则 $a$ 的平方根为（\quad\quad）
+
+\choices{$\pm 4$}{$\pm 2$}{$4$}{$2$}
+
+\medskip
+\textbf{12.}已知 $a$ 的两个不同的平方根分别是 $2a+1$ 和 $a-4$，且 $a+b^{3}=0$，$b$ 的值为\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{13.}若 $\sqrt{2x+1}=-3$，则 $x$ 的值是\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{14.}若 $|a-2|+\sqrt{b+1}=0$，则 $a+b=$\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{15.}若 $\sqrt{a}$ 是 $64$ 的立方根，则 $\sqrt{a}$ 的立方根是\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{16.}若一个实数的平方根与立方根是相等的，则这个实数一定是\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{17.}一个长、宽、高分别为 $50$、$8$、$20$ 的长方体铁块锻造成一个立方体铁块，则锻造成的立方体铁块的棱长是\underline{\hspace{2cm}}。
+
+\medskip
+\textbf{18.}已知按照一定规律排成的一列实数：$-1$，$\sqrt{2}$，$\sqrt{-3}$，$\sqrt{4}$，$-5$，$\sqrt{6}$，$\sqrt{-7}$，$\sqrt{8}$，$-9$，$\sqrt{10}$，$\cdots$，则按此规律可推得这一列数中的第 $20$ 个数是\underline{\hspace{2cm}}。
+
+% --- 三、解答题 ---
+
+\subsection*{三、解答题}
+
+\begin{example}
+\textbf{19.}求下列各式的值：
+
+\subqsThree{(1)\,$\sqrt{343}$}{(2)\,$\sqrt{-1000}$}{(3)\,$\sqrt{-\dfrac{1}{8}}$}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{example}
+\textbf{20.}求下列各式的值。
+
+\subqsThree{(1)\,$\sqrt{27}+\sqrt{-8}$}{(2)\,$\sqrt{-64}\times\sqrt{125}$}{(3)\,$\sqrt{-1}+\sqrt{-8}+\sqrt{-27}$}
+
+\subqsThree{(4)\,$\sqrt{1000}-\sqrt{-216}$}{(5)\,$-\sqrt{\dfrac{64}{125}}$}{(6)\,$\sqrt{0.001}$}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{example}
+\textbf{21.}求下列各式中 $x$ 的值：
+
+\subqsThree{(1)\,$x^{3}=-64$}{(2)\,$(x-1)^{3}=27$}{(3)\,$8x^{3}+1=0$}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{example}
+\textbf{22.}已知 $a^{3}=8$，$b^{3}=-27$，求 $\sqrt{a^{2}}+|b|$ 的值。
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{example}
+\textbf{23.}已知正数 $a$ 的平方根是 $\pm 2$，$b$ 的立方根是 $2$。
+
+\hspace{2em}(1) 求 $a$ 和 $b$ 的值；
+
+\hspace{2em}(2) 求 $a+b$ 的立方根。
+\vspace{2\baselineskip}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{example}
+\textbf{24.}已知：$3a+21$ 的立方根是 $3$，$4a-b-1$ 的算术平方根是 $2$，$c$ 的平方根是它本身。
+
+\hspace{2em}(1) 求 $a$，$b$，$c$ 的值；
+
+\hspace{2em}(2) 求 $3a+10b+c$ 的平方根。
+\vspace{2\baselineskip}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{example}
+\textbf{25.}
+
+\hspace{2em}(1) 填表：
+\vspace{2\baselineskip}
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+\toprule
+$a$ & $0.000008$ & $0.008$ & $8$ & $8000$ & $8000000$ \\
+\midrule
+$\sqrt{a}$ & & & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\hspace{2em}(2) 观察上表，表中数 $a$ 的小数点的移动与它的立方根的小数点的移动之间有何规律？请用语言叙述这个规律：\underline{\hspace{6cm}}；
+
+\hspace{2em}(3) 根据你发现的规律解答：
+\vspace{2\baselineskip}
+
+\hspace{4em}① 已知 $\sqrt{5}\approx 1.710$，$\sqrt{50}\approx 3.684$，$\sqrt{500}\approx 7.937$，则 $\sqrt{5000}$ 介于哪两个整数之间？
+
+\hspace{4em}② 已知 $\sqrt{1.843}\approx 1.226$，则 $\sqrt{1843}\approx$\underline{\hspace{2cm}}；
+
+\hspace{4em}③ 用铁皮制作一个封闭的正方体，它的体积是 $1.843$ 立方米，问需要多大面积的铁皮？（结果精确到 $0.01$ 平方米）
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\begin{example}
+\textbf{26.}如图1，这是一个 $3$ 阶魔方，由三层完全相同的 $27$ 个小立方体组成，体积为 $27$。
+
+\hspace{2em}(1) 求出这个魔方的棱长。
+
+\hspace{2em}(2) 图中阴影部分是一个正方形，求出阴影部分的面积及其边长。
+
+\hspace{2em}(3) 在图2的方格中画一个面积为 $10$ 的正方形。
+\vspace{2\baselineskip}
+\vspace{2\baselineskip}
+ \solutionblank
+\end{example}
+
+\end{document}

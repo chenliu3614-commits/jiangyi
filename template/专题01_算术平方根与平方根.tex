@@ -1,0 +1,806 @@
+% ============================================================
+%  专题01  算术平方根与平方根
+%  风格：参考 勤思数学 模板
+% ============================================================
+\documentclass[11pt,a4paper]{ctexart}
+\usepackage[margin=2cm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\usepackage{booktabs}
+\usepackage{needspace}
+\usepackage{multicol}
+\usepackage{tikz}
+\usepackage{pgffor}
+\usetikzlibrary{calc}
+
+% === 个人风格配色 ===
+\definecolor{primary}{RGB}{0,100,180}      % 主色-深蓝
+\definecolor{accent}{RGB}{220,80,60}       % 强调-珊瑚红
+\definecolor{teal}{RGB}{0,140,130}         % 辅助-青色
+\definecolor{orange}{RGB}{230,130,40}      % 橙色
+\definecolor{lightblue}{RGB}{235,245,255}  % 浅蓝背景
+\definecolor{lightyellow}{RGB}{255,250,235}
+\definecolor{lightgreen}{RGB}{235,250,240}
+\definecolor{lightred}{RGB}{255,242,240}
+
+% === 标题样式 ===
+\ctexset{
+  section = {
+    format = \Large\bfseries\color{primary},
+    name = {,},
+    aftername = \hspace{0.5em},
+    beforeskip = 1.2em,
+    afterskip = 0.8em,
+  },
+  subsection = {
+    format = \large\bfseries\color{teal},
+    beforeskip = 0.8em,
+    afterskip = 0.5em,
+  }
+}
+
+% === 页眉页脚 ===
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{primary}\bfseries 专题01\ $\cdot$\ 算术平方根与平方根}
+\fancyhead[R]{\small\thepage}
+\fancyfoot[C]{\small\color{gray}--- 厉飞雨数学 ---}
+\renewcommand{\headrulewidth}{0.6pt}
+\renewcommand{\footrulewidth}{0.3pt}
+
+% === 自定义盒子 ===
+\tcbuselibrary{skins,breakable}
+
+% 知识点盒子
+\newtcolorbox{knowledge}[1][]{
+  colback=lightblue, colframe=primary,
+  fonttitle=\bfseries\color{white},
+  title={#1},
+  arc=3mm, boxrule=0.8pt,
+  left=8pt, right=8pt, top=6pt, bottom=6pt,
+  breakable
+}
+
+% 例题盒子 —— 白底 + 淡粉标题栏
+\newtcolorbox{example}[1][]{
+  colback=white, colframe=red!20,
+  fonttitle=\bfseries\color{red!50!black},
+  colbacktitle=red!10,
+  title={#1},
+  arc=2mm, boxrule=0.4pt,
+  left=8pt, right=8pt, top=5pt, bottom=5pt,
+  breakable
+}
+
+% 训练盒子 —— 白底 + 淡粉标题栏
+\newtcolorbox{practice}[1][]{
+  colback=white, colframe=red!20,
+  fonttitle=\bfseries\color{red!50!black},
+  colbacktitle=red!10,
+  title={#1},
+  arc=2mm, boxrule=0.4pt,
+  left=8pt, right=8pt, top=5pt, bottom=5pt,
+  breakable
+}
+
+% 易错盒子
+\newtcolorbox{warning}[1][]{
+  colback=lightred, colframe=accent,
+  fonttitle=\bfseries\color{white},
+  title={\color{white}#1},
+  arc=2mm, boxrule=0.6pt,
+  left=8pt, right=8pt, top=5pt, bottom=5pt,
+  breakable
+}
+
+% === 公式高亮 ===
+\newcommand{\key}[1]{\textcolor{accent}{\textbf{#1}}}
+\newcommand{\formula}[1]{\textcolor{primary}{\textbf{$#1$}}}
+
+% === 题型编号装饰（robust 防止展开问题）===
+\DeclareRobustCommand{\typetag}[1]{%
+  \tikz[baseline=(X.base)]{
+    \node[fill=primary, text=white, rounded corners=3pt,
+          inner xsep=6pt, inner ysep=2pt, font=\small\bfseries] (X) {#1};
+  }%
+}
+
+% === 答题留白区域 ===
+
+% === 防跨页 ===
+\newcommand{\qitem}[1][6]{\needspace{#1\baselineskip}\item}
+
+% === 间距控制 ===
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{2pt plus 1pt minus 1pt}
+
+% === 选项排列 ===
+\setlist[itemize]{nosep,left=0pt .. 2em}
+
+% ============================================================
+%  自定义环境
+% ============================================================
+
+% ── 选择题选项 —— 两列清爽排版 ────────────────────────────
+\newcommand{\choices}[4]{%
+  \par\vspace{3pt}%
+  \noindent
+  \begin{minipage}[t]{0.47\textwidth}A．#1\end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.47\textwidth}B．#2\end{minipage}\\[4pt]
+  \noindent
+  \begin{minipage}[t]{0.47\textwidth}C．#3\end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.47\textwidth}D．#4\end{minipage}%
+  \par\vspace{2pt}%
+}
+
+% ── 子题网格 —— 2×2 对齐排列 ──────────────────────────────
+\newcommand{\subqs}[4]{%
+  \par\vspace{3pt}%
+  \noindent
+  \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.47\textwidth}#2\end{minipage}\\[5pt]
+  \noindent
+  \begin{minipage}[t]{0.47\textwidth}#3\end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.47\textwidth}#4\end{minipage}%
+  \par\vspace{2pt}%
+}
+\newcommand{\subqsThree}[3]{%
+  \par\vspace{3pt}%
+  \noindent
+  \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.47\textwidth}#2\end{minipage}\\[5pt]
+  \noindent
+  \begin{minipage}[t]{0.47\textwidth}#3\end{minipage}%
+  \par\vspace{2pt}%
+}
+\newcommand{\subqsFive}[5]{%
+  \par\vspace{3pt}%
+  \noindent
+  \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.47\textwidth}#2\end{minipage}\\[5pt]
+  \noindent
+  \begin{minipage}[t]{0.47\textwidth}#3\end{minipage}%
+  \hfill
+  \begin{minipage}[t]{0.47\textwidth}#4\end{minipage}\\[5pt]
+  \noindent
+  \begin{minipage}[t]{0.47\textwidth}#5\end{minipage}%
+  \par\vspace{2pt}%
+}
+
+% ── 填空留白 ───────────────────────────────────────────────
+\newcommand{\fillblank}[1][2cm]{\underline{\hspace{#1}}}
+
+% ── 解答留白 —— 纯空白行 ──────────────────────────────────
+% 用法: \solutionblank（默认2行）或 \solutionblank[4]（4行）
+\newcommand{\solutionblank}[1][2]{%
+  \par\vspace{4pt}%
+  \foreach \i in {1,...,#1}{%
+    \par\vspace{10pt}%
+  }%
+  \vspace{-2pt}%
+}
+
+% ============================================================
+\begin{document}
+
+% === 封面 ===
+\begin{titlepage}
+\begin{center}
+\vspace*{3cm}
+
+{\tikz{
+  \node[fill=primary, text=white, rounded corners=8pt,
+        inner xsep=20pt, inner ysep=10pt,
+        font=\Huge\bfseries] {算术平方根与平方根};
+}}
+
+\vspace{1.5cm}
+
+{\Large\color{gray} 专题01\ $\cdot$\ 七年级数学}
+
+\vspace{2cm}
+
+\begin{tikzpicture}
+  \node[draw=primary, line width=1pt, rounded corners=5pt,
+        inner sep=15pt, text width=10cm, align=left,
+        font=\large] {
+    \textcolor{primary}{\textbf{本讲要点}}\\[8pt]
+    \textcolor{teal}{$\bullet$} 算术平方根的定义与性质\\[4pt]
+    \textcolor{teal}{$\bullet$} 平方根的概念与性质\\[4pt]
+    \textcolor{teal}{$\bullet$} 算术平方根与平方根的区别与联系\\[4pt]
+    \textcolor{teal}{$\bullet$} 估算与实际应用
+  };
+\end{tikzpicture}
+
+\vfill
+{\large\color{gray} \today}
+\end{center}
+\end{titlepage}
+
+% ========================================
+% 知识点部分
+% ========================================
+
+\section*{\color{primary}\Large $\blacktriangleright$\ 知识要点}
+
+% --- 知识点1 ---
+\begin{knowledge}[\color{white}知识点1\ $\cdot$\ 算术平方根]
+\textbf{定义}：一般地，如果一个正数 $x$ 的平方等于 $a$，即 $\formula{x^2=a}$，那么这个正数 $x$ 叫作 $a$ 的\key{算术平方根}。
+
+\vspace{0.3em}
+\textbf{表示方法}：$a$ 的算术平方根记为 $\formula{\sqrt{a}}$，读作"根号 $a$"，$a$ 叫做\textbf{被开方数}。
+实际上 $\sqrt{\phantom{a}}$ 中省略了根指数 $2$，因此也读作"二次根号 $a$"。
+
+\vspace{0.3em}
+\textbf{性质}：
+\begin{enumerate}[leftmargin=1.8em]
+  \item 算术平方根是它本身的数有 \key{$0$ 和 $1$}；
+  \item 一个正数的算术平方根\textbf{只有一个}，并且\textbf{恒为正}；$0$ 的算术平方根为 $0$，即 $\sqrt{0}=0$；\textbf{负数没有算术平方根}；
+  \item 具有\key{双重非负性}：被开方数 $\sqrt{a}\geq 0$（$\geq 0$），其本身 $\sqrt{a}\geq 0$（$\geq 0$）。
+\end{enumerate}
+\end{knowledge}
+
+% --- 知识点2 ---
+\begin{knowledge}[\color{white}知识点2\ $\cdot$\ 小数点移动规律]
+一个数扩大为原来的 $100$ 倍，它的算术平方根就扩大为原来的 $10$ 倍。
+一个数缩小为原来的 $\dfrac{1}{100}$，它的算术平方根就缩小为原来的 $\dfrac{1}{10}$。
+
+\begin{center}
+\begin{tikzpicture}
+  \node[draw=primary, fill=lightblue, rounded corners=5pt,
+        inner sep=8pt, text width=12cm, align=center, font=\small] {
+    \textbf{规律}：被开方数的小数点向右（或向左）移动\textbf{两位}，
+    它的算术平方根的小数点相应地向右（或向左）移动\textbf{一位}。
+  };
+\end{tikzpicture}
+\end{center}
+\end{knowledge}
+
+% --- 知识点3 ---
+\begin{knowledge}[\color{white}知识点3\ $\cdot$\ 平方根]
+\textbf{定义}：一般地，如果一个数 $x$ 的平方等于 $a$，即 $\formula{x^2=a}$，那么这个数 $x$ 叫作 $a$ 的\key{平方根}（也称为\textbf{二次方根}）。
+
+\vspace{0.3em}
+\textbf{表示方法}：正数 $a\,(a\geq 0)$ 的平方根记作 $\formula{\pm\sqrt{a}}$，读作"正负根号 $a$"。
+其中 $\sqrt{a}$ 表示正平方根（算术平方根），$-\sqrt{a}$ 表示负平方根。$0$ 的平方根记作 $\sqrt{0}=0$。
+
+\vspace{0.3em}
+\textbf{性质}：
+\begin{itemize}[leftmargin=1.8em]
+  \item 一个\textbf{正数}有两个平方根，它们\key{互为相反数}；
+  \item $0$ 只有一个平方根，是它本身；
+  \item \textbf{负数}没有平方根。
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{开平方}：求一个数 $a$ 的平方根的运算叫作\key{开平方}。
+开平方与平方\textbf{互为逆运算}。
+\end{knowledge}
+
+% --- 知识点4 ---
+\begin{knowledge}[\color{white}知识点4\ $\cdot$\ 算术平方根 vs 平方根]
+\begin{center}
+\begin{tabular}{lcc}
+  \toprule
+  & \textbf{算术平方根} & \textbf{平方根} \\
+  \midrule
+  表示 & $\sqrt{a}$ & $\pm\sqrt{a}$ \\
+  个数 & 正数有 \textbf{1} 个 & 正数有 \textbf{2} 个 \\
+  正负 & $\geq 0$ & 一正一负（$0$ 除外） \\
+  被开方数要求 & $a\geq 0$ & $a\geq 0$ \\
+  关系 & 正数的正平方根 $=$ 算术平方根 & 平方根 $=\pm$ 算术平方根 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+\end{knowledge}
+
+\begin{warning}[\color{white}易错警示]
+\begin{itemize}[leftmargin=1.5em]
+  \item $\sqrt{a}$ 表示的是\textbf{算术平方根}，结果恒为非负数。
+  \item "$\pm\sqrt{a}$" 才表示平方根，包含正负两个值。
+  \item $a$ 的算术平方根 $\sqrt{a}$ 与 $a$ 的平方根 $\pm\sqrt{a}$ 是\textbf{不同的概念}。
+  \item $0$ 的平方根 $=$ 算术平方根 $=$ $0$。
+\end{itemize}
+\end{warning}
+
+\newpage
+
+% ============================================================
+\subsection*{\typetag{题型01}\ 辨析算术平方根的概念}
+% ============================================================
+
+\begin{example}
+\textbf{【例1】} 下列说法正确的是（\quad\quad）
+
+\choices{$\sqrt{25}$ 表示 $25$ 的算术平方根}{$\sqrt{2}$ 表示 $2$ 的算术平方根}{$2$ 的算术平方根记作 $\sqrt{2}$}{$2$ 是 $\sqrt{4}$ 的算术平方根}
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+\textbf{1.} 算术平方根是它本身的数是（\quad\quad）
+
+\medskip
+\textbf{2.} 如果 $\sqrt{a}$ 有算术平方根，那么 $a$ 可以取的值为（\quad\quad）
+
+\medskip
+\textbf{3.} 下列各数没有算术平方根的是（\quad\quad）
+
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型02}\ 求算术平方根}
+% ============================================================
+
+\begin{example}
+\textbf{【例2】} $\sqrt{4}$ 的算术平方根是（\quad\quad）
+
+\medskip
+\textbf{【例3】} 计算：$\sqrt{\dfrac{4}{9}}=\underline{\hspace{1.5cm}}$，$\sqrt{0.01}=\underline{\hspace{1.5cm}}$。
+
+\medskip
+\textbf{【例4】} $\sqrt{81}$ 的算术平方根是 $\underline{\hspace{1.5cm}}$。
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+
+\medskip
+
+\medskip
+
+\medskip
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型03}\ 辨析平方根的概念}
+% ============================================================
+
+\begin{example}
+\textbf{【例5】} "$\dfrac{4}{9}$ 的平方根是 $\pm\dfrac{2}{3}$"，用数学式子表达为（\quad\quad）
+
+\choices{$\sqrt{\dfrac{4}{9}}=\pm\dfrac{2}{3}$}{$\pm\sqrt{\dfrac{4}{9}}=\pm\dfrac{2}{3}$}{$\pm\sqrt{\dfrac{4}{9}}=\dfrac{2}{3}$}{$\sqrt{\dfrac{4}{9}}=\dfrac{2}{3}$}
+
+\medskip
+\textbf{【例6】} 下列各数中没有平方根的是（\quad\quad）
+
+\medskip
+\textbf{【例7】} 下列说法正确的是（\quad\quad）
+
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+\textbf{1.} 下列语句写成数字式子正确的是（\quad\quad）
+
+\choices{$9$ 是 $81$ 的算术平方根：$9=\sqrt{81}$}{$5$ 是 $25$ 的算术平方根：$5=\pm\sqrt{25}$}{$-6$ 是 $36$ 的平方根：$-6=\sqrt{36}$}{$-2$ 是 $4$ 的负的平方根：$-2=-\sqrt{4}$}
+
+\medskip
+\textbf{2.} 下列说法正确的是（\quad\quad）
+
+\medskip
+\textbf{3.} 下列说法正确的是（\quad\quad）
+
+\medskip
+\textbf{4.} 一个自然数的一个平方根是 $a$，则与它相邻的下一个自然数的平方根是（\quad\quad）
+
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型04}\ 求平方根}
+% ============================================================
+
+\begin{example}
+\textbf{【例8】} 求下列各数的平方根：
+
+\subqs{(1)\,$2.25$}{(2)\,$\dfrac{49}{64}$}{(3)\,$0$}{(4)\,$-16$}
+
+\medskip
+
+\medskip
+\textbf{【例10】} $\sqrt{81}$ 的平方根是（\quad\quad）
+
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+
+\medskip
+\textbf{2.} 求下列各数的平方根，并用式子表示出来：
+
+\subqs{(1)\,$100$}{(2)\,$0.49$}{(3)\,$\dfrac{9}{16}$}{(4)\,$(-5)^{2}$}
+
+\medskip
+\textbf{3.} 求下列等式中的 $x$：
+
+\subqs{(1)\,若 $x^{2}=49$，则 $x=\underline{\hspace{1cm}}$}{(2)\,若 $x^{2}=\dfrac{1}{4}$，则 $x=\underline{\hspace{1cm}}$}{(3)\,若 $x^{2}=(-3)^{2}$，则 $x=\underline{\hspace{1cm}}$}{(4)\,若 $x^{2}=0$，则 $x=\underline{\hspace{1cm}}$}
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型05}\ 利用概念求值}
+% ============================================================
+
+\begin{example}
+\textbf{【例11】} 已知 $2a-1$ 的平方根为 $\pm 3$，$3a+b$ 的算术平方根为 $4$。
+
+\hspace{2em}(1) 求 $a$、$b$ 的值；\quad (2) 求 $a+b$ 的平方根。
+\solutionblank[4]
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+\textbf{1.} 已知 $2a-b^{2}$ 的平方根是 $\pm 4$，$a-2b$ 的平方根是 $\pm 2$，求 $a+b$ 的平方根。
+\solutionblank[4]
+
+\medskip
+\textbf{2.} 已知 $a$ 的值是 $2$，$b$ 的算术平方根是 $4$。
+
+\hspace{2em}(1) 求 $a$、$b$ 的值；\quad (2) 求 $a+b$ 的平方根。
+\solutionblank[4]
+
+\medskip
+\textbf{3.} 已知 $x=3$，$y=4$，$z$ 是 $9$ 的算术平方根，求 $x+y-z$ 的平方根。
+\solutionblank[3]
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型06}\ 利用平方根解方程}
+% ============================================================
+
+\begin{example}
+\textbf{【例12】} 求下列各式中的值：
+
+\hspace{2em}(1)\,$(x-1)^{2}=25$；\quad (2)\,$(2x+1)^{2}=9$；\quad (3)\,$4x^{2}-49=0$。
+\solutionblank[4]
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+\textbf{1.} 求下列各式中 $x$ 的值：
+
+\subqsThree{(1)\,$x^{2}=81$}{(2)\,$(x-2)^{2}=16$}{(3)\,$(3x+1)^{2}=25$}
+\solutionblank[5]
+
+\medskip
+\textbf{2.} 解方程：
+
+\subqsThree{(1)\,$(x-3)^{2}=49$}{(2)\,$(2x-1)^{2}=16$}{(3)\,$9x^{2}-1=0$}
+\solutionblank[5]
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型07}\ 非负性的应用}
+% ============================================================
+
+\begin{example}
+
+\medskip
+\textbf{【例14】} 已知 $a$、$b$ 都是实数，且 $\sqrt{a-2}+|b+3|=0$，求 $a+b$ 的平方根。
+\solutionblank[3]
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+
+\medskip
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型08}\ 平方根性质的应用}
+% ============================================================
+
+\begin{example}
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+
+\medskip
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型09}\ 运算}
+% ============================================================
+
+\begin{example}
+\textbf{【例16】} 计算：
+
+\subqsFive{(1)\,$\sqrt{64}$}{(2)\,$\sqrt{(-5)^{2}}$}{(3)\,$-\sqrt{0.09}$}{(4)\,$\sqrt{(-13)^{2}}$}{(5)\,$\sqrt{16}+\sqrt{9}$}
+
+\medskip
+\textbf{【例17】} 求下列各式的值：
+
+\subqs{(1)\,$\sqrt{(-8)^{2}}$}{(2)\,$\sqrt{(-0.5)^{2}}$}{(3)\,$\sqrt{\left(\dfrac{3}{7}\right)^{2}}$}{(4)\,$\pm\sqrt{\dfrac{25}{36}}$}
+
+\medskip
+\textbf{【例18】} 求下列各式的值：
+
+\subqsThree{(1)\,$\sqrt{49}-\sqrt{16}$}{(2)\,$\sqrt{\dfrac{9}{4}}+\sqrt{\dfrac{1}{9}}$}{(3)\,$\sqrt{1}+\sqrt{4}+\sqrt{9}$}
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+\textbf{1.} 下列选项中，正确的是（\quad\quad）
+
+\choices{$\sqrt{(-3)^{2}}=-3$}{$\sqrt{16}=\pm 4$}{$-\sqrt{25}=-5$}{$\sqrt{0}=1$}
+
+\medskip
+\textbf{2.} 求下列各式的值：
+
+\subqs{(1)\,$\sqrt{25}$}{(2)\,$\sqrt{0.01}$}{(3)\,$\sqrt{\dfrac{49}{81}}$}{(4)\,$\pm\sqrt{100}$}
+
+\medskip
+\textbf{3.} 求下列各式的值：
+
+\noindent(1)\,$\sqrt{(-9)^{2}}=\underline{\hspace{1cm}}$\quad (2)\,$\sqrt{(-4)^{2}}=\underline{\hspace{1cm}}$\quad (3)\,$\pm\sqrt{\dfrac{4}{25}}=\underline{\hspace{1cm}}$\quad (4)\,$\sqrt{0.16}=\underline{\hspace{1cm}}$
+
+\vspace{4pt}
+\noindent(5)\,$\sqrt{1.44}=\underline{\hspace{1cm}}$\quad (6)\,$-\sqrt{36}=\underline{\hspace{1cm}}$\quad (7)\,$\pm\sqrt{\dfrac{9}{4}}=\underline{\hspace{1cm}}$\quad (8)\,$\sqrt{625}=\underline{\hspace{1cm}}$
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型10}\ 估算}
+% ============================================================
+
+\begin{example}
+\textbf{【例19】} 若 $\sqrt{a}$ 的值在 $3$ 与 $4$ 之间，则满足条件的 $a$ 可能是（\quad\quad）
+
+\medskip
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+\textbf{1.} 估计 $\sqrt{20}$ 的值在（\quad\quad）
+
+\medskip
+\textbf{2.} 已知 $a$，$b$ 是两个连续整数，$a<\sqrt{7}<b$，则 $a+b$ 的值为（\quad\quad）
+
+\medskip
+\textbf{3.} 一个正方形的面积是 $8$，估计它的边长大小在（\quad\quad）
+
+\medskip
+
+\medskip
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型11}\ 小数点移动规律}
+% ============================================================
+
+\begin{example}
+\textbf{【例21】} 已知 $\sqrt{3}\approx 1.732$，那么下列结论正确的是（\quad\quad）
+
+\medskip
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+\toprule
+$a$ & $\cdots$ & $0.000001$ & $0.01$ & $1$ & $100$ & $10000$ \\
+\midrule
+$\sqrt{a}$ & $\cdots$ & $0.001$ & $0.1$ & $1$ & $10$ & $100$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+\textbf{1.} 若 $\sqrt{3}\approx 1.732$，$\sqrt{30}\approx 5.477$，则 $\sqrt{300}$ 的平方根约为（\quad\quad）
+
+\medskip
+\textbf{2.} (1) 填表并观察规律：
+
+\begin{center}
+\begin{tabular}{c|cccccc}
+\toprule
+$a$ & $0.0064$ & $0.64$ & $64$ & $6400$ \\
+\midrule
+$\sqrt{a}$ & \rule{2cm}{0.4pt} & \rule{2cm}{0.4pt} & \rule{2cm}{0.4pt} & \rule{2cm}{0.4pt} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+(2) 根据你发现的规律填空：
+
+\hspace{2em}① 已知 $\sqrt{0.5}\approx 0.707$，则 $\sqrt{50}\approx\underline{\hspace{2cm}}$；
+
+\hspace{2em}② 已知 $\sqrt{5}\approx 2.236$，则 $\sqrt{0.005}\approx\underline{\hspace{2cm}}$。
+
+(3) 从以上问题的解决过程中，你发现了什么规律，试简要说明。
+\solutionblank[3]
+
+\medskip
+\textbf{3.} 按要求填空：
+
+(1) 填表并观察规律：
+
+\begin{center}
+\begin{tabular}{c|ccccc}
+\toprule
+$a$ & & & $4$ & $400$ \\
+\midrule
+$\sqrt{a}$ & & & & \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+(2) 根据你发现的规律填空：
+
+\hspace{2em}已知：$\sqrt{0.4}\approx 0.632$，则 $\sqrt{40}\approx\underline{\hspace{2cm}}$；
+
+\hspace{2em}已知：$\sqrt{4}\approx 2$，$\sqrt{400}=20$，则 $\sqrt{40000}\approx\underline{\hspace{2cm}}$。
+
+(3) 从以上问题的解决过程中，你发现了什么规律，试简要说明。
+\solutionblank[3]
+\end{practice}
+
+% ============================================================
+\subsection*{\typetag{题型12}\ 实际应用}
+% ============================================================
+
+\begin{example}
+\textbf{【例23】} 如图，用两个边长为 $a$ 的小正方形拼成一个大的正方形。
+
+
+\hspace{2em}(2) 若沿此大正方形边长的方向剪出一个长方形，能否使剪出的长方形纸片的长宽之比为 $3:2$ 且面积为 $24\,\text{cm}^{2}$？
+\solutionblank[4]
+\end{example}
+
+\begin{practice}[\color{teal}跟踪训练]
+\textbf{1.} 观察正方形方格，每个小正方形的边长均是 $1$。
+
+(1) 如图1，求阴影正方形的面积和边长；
+
+(2) 图2是 $10\times 10$ 的正方形方格，请在图2中画出长为 $\sqrt{5}$ 的线段，并说明理由。
+\solutionblank[5]
+
+\medskip
+\textbf{2.} 为了装饰房间，小明制作了一个面积为 $4\,\text{m}^{2}$ 的正方形拼图。他准备把这个拼图装进一个长方形相框中，这个长方形相框的长和宽之比为 $3:1$，且面积为 $8\,\text{m}^{2}$。
+
+(1) 求长方形相框的长和宽。
+
+(2) 小明能将拼图放入这个相框中吗？请通过计算说明。
+\solutionblank[5]
+
+\medskip
+\textbf{3.} 如图，用两个面积为 $25\,\text{cm}^{2}$ 的小正方形剪拼成一个大的正方形。
+
+
+(2) 若沿此大正方形纸片的边的方向剪出一个长方形，能否使剪出的长方形纸片的长、宽之比为 $3:2$，且面积为 $24\,\text{cm}^{2}$？若能，试求出剪出的长方形纸片的长宽；若不能，试说明理由。
+
+（参考数据：$\sqrt{2}\approx 1.414$，$\sqrt{3}\approx 1.732$）
+\solutionblank[5]
+\end{practice}
+
+\newpage
+
+% ============================================================
+%  专题练习
+% ============================================================
+\begin{center}
+  \vspace{2pt}
+  {\LARGE\sffamily\bfseries 专题练习}\\[4pt]
+  {\color{blue!30}\rule{\textwidth}{0.6pt}}
+\end{center}
+\vspace{8pt}
+
+% ── 一、选择题 ──────────────────────────────────────────────
+
+\textbf{1.}（2023 上海闵行区期中）$\sqrt{16}$ 的算术平方根等于（\quad\quad）
+
+\medskip
+\textbf{2.}（2022 上海静安 期中）$9$ 的平方根为（\quad\quad）
+
+\medskip
+\textbf{3.}（2024 静安区七年级下期中）下列说法正确的是
+
+\choices{一个数的平方根一定有两个}{一个正数的平方根一定是它的算术平方根}{一个非零数的正的平方根一定是它的算术平方根}{一个非负数的非负平方根一定是它的算术平方根}
+
+\medskip
+\textbf{4.}（2024 松江区七年级下期中）面积为 $9$ 的正方形，其边长等于（\quad\quad）
+
+\medskip
+\textbf{5.}（2024 上海实验七年级期中）下列说法正确的是（\quad\quad）
+
+\choices{$4$ 是 $16$ 的一个平方根}{$16$ 的平方根是 $4$}{$4$ 的算术平方根是 $\pm 2$}{$16$ 的算术平方根是 $4$}
+
+\medskip
+\textbf{6.}（2024 存志中学期中）下列说法正确的是（\quad\quad）
+
+\choices{平方根等于它本身的数是 $0$，$1$}{倒数等于它本身的数只有 $1$}{算术平方根等于它本身的数是 $0$，$1$}{$4$ 的平方根为 $2$}
+
+% ── 二、填空题 ──────────────────────────────────────────────
+
+
+\medskip
+
+\medskip
+
+\medskip
+
+\medskip
+
+\medskip
+
+\medskip
+
+\medskip
+\textbf{14.}（2024 静安区七年级下期中）若 $\sqrt{x-3}+|y+2|=0$，则 $\underline{\hspace{1cm}}$。
+
+\medskip
+
+\medskip
+
+\medskip
+\textbf{17.}（2024 浦东新区七年级下期中）已知 $(x-1)^{2}=4$，则 $\underline{\hspace{1cm}}$。
+
+\medskip
+
+% ── 三、解答题 ──────────────────────────────────────────────
+
+\begin{example}
+\textbf{19.}（2024 徐汇中学七年级练习）求下列各数的算术平方根：
+
+\subqs{(1)\,$169$}{(2)\,$\dfrac{49}{64}$}{(3)\,$0.09$}{(4)\,$(-5)^{2}$}
+\solutionblank[4]
+\end{example}
+
+\begin{example}
+\textbf{20.} 求下列各数的平方根：
+
+\subqs{(1)\,$121$}{(2)\,$0.01$}{(3)\,$\dfrac{16}{25}$}{(4)\,$(-7)^{2}$}
+\solutionblank[4]
+\end{example}
+
+\begin{example}
+\textbf{21.} 求下列各式中的 $x$ 值：
+
+\subqsFive{(1)\,$x^{2}=64$}{(2)\,$(x-1)^{2}=9$}{(3)\,$(2x+3)^{2}=25$}{(4)\,$4(x-2)^{2}=36$}{(5)\,$(3x-1)^{2}=16$}
+\solutionblank[5]
+\end{example}
+
+\begin{example}
+\textbf{22.}（21-22 八年级 全国 假期作业）已知 $\sqrt{x-y+3}$ 与 $(2x+3y+1)^{2}$ 互为相反数，求 $x-y$ 的平方根。
+\solutionblank[4]
+\end{example}
+
+\begin{example}
+\textbf{23.}（2023 青浦区七年级统考期末）已知实数 $a$ 的平方根为 $3a+2$ 和 $a-6$，$b$ 的整数部分为 $b$。
+
+\hspace{2em}(1) 求 $a$，$b$ 的值；
+
+\hspace{2em}(2) 若 $b$ 的小数部分为 $c$，求 $a+b+c$ 的平方根。
+\solutionblank[5]
+\end{example}
+
+\begin{example}
+\textbf{24.}（24-25 七年级下 宝山期中）已知 $x=2$，$y=3$，$z$ 是 $9$ 的算术平方根，求 $x+y-z$ 的值。
+\solutionblank[3]
+\end{example}
+
+\begin{example}
+\textbf{25.}（24-25 七年级下 上外附中阶段练习）已知 $2m-4$ 的平方根是 $\pm 2$，$3m+n$ 的平方根是 $\pm 4$。
+
+\hspace{2em}(1) 求 $m$，$n$ 的值；
+
+\hspace{2em}(2) 求 $m+n$ 的平方根。
+\solutionblank[4]
+\end{example}
+
+\begin{example}
+\textbf{26.}（24-25 七年级下 上宝中学阶段练习）一个正数的两个不同的平方根分别是 $3a+2$ 和 $-a+4$。
+
+\hspace{2em}(1) 求 $a$ 和这个正数的值；
+
+\hspace{2em}(2) 求这个数的算术平方根。
+\solutionblank[4]
+\end{example}
+
+\begin{example}
+\textbf{27.}（23-24 七年级下 华育中学月考）如图，用两个面积为 $25\,\text{cm}^{2}$ 的小正方形纸片拼成一个大正方形。
+
+\hspace{2em}(1) 求拼成的大正方形纸片的边长；
+
+\hspace{2em}(2) 小丽想：若沿此大正方形纸片的边的方向剪出一个长方形，能否使剪出的长方形纸片的长、宽之比为 $3:2$ 且面积为 $24\,\text{cm}^{2}$？她不知能否剪得出来，正在发愁。小明见了说："别发愁，一定能用一块面积大的纸片剪出一块面积小的纸片。"你同意小明的说法吗？你认为小丽能用这块纸片剪出符合要求的纸片吗？为什么？
+\solutionblank[6]
+\end{example}
+
+\end{document}
