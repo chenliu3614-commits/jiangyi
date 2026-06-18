@@ -98,8 +98,8 @@
 }
 
 % === 公式高亮 ===
-\newcommand{\key}{\textcolor{accent}{\textbf{#1}}}
-\newcommand{\formula}{\textcolor{primary}{\textbf{$#1$}}}
+\newcommand{\key}[1]{\textcolor{accent}{\textbf{#1}}}
+\newcommand{\formula}[1]{\textcolor{primary}{\textbf{$#1$}}}
 
 % === 题型编号装饰 ===
 \DeclareRobustCommand{\typetag}{%
@@ -110,7 +110,7 @@
 }
 
 % === 选项两列排列 ===
-\newcommand{\choices}{%
+\newcommand{\choices}[4]{%
  \par\vspace{3pt}%
  \noindent
  \begin{minipage}[t]{0.47\textwidth}A．#1\end{minipage}%
@@ -124,7 +124,7 @@
 }
 
 % === 子题网格 ===
-\newcommand{\subqs}{%
+\newcommand{\subqs}[4]{%
  \par\vspace{3pt}%
  \noindent
  \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
@@ -136,7 +136,7 @@
  \begin{minipage}[t]{0.47\textwidth}#4\end{minipage}%
  \par\vspace{2pt}%
 }
-\newcommand{\subqsThree}{%
+\newcommand{\subqsThree}[3]{%
  \par\vspace{3pt}%
  \noindent
  \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
@@ -146,7 +146,7 @@
  \begin{minipage}[t]{0.47\textwidth}#3\end{minipage}%
  \par\vspace{2pt}%
 }
-\newcommand{\subqsFive}{%
+\newcommand{\subqsFive}[5]{%
  \par\vspace{3pt}%
  \noindent
  \begin{minipage}[t]{0.47\textwidth}#1\end{minipage}%
@@ -162,7 +162,7 @@
 }
 
 % === 防跨页 ===
-\newcommand{\qitem}{\needspace{#1\baselineskip}\item}
+\newcommand{\qitem}[1]{\needspace{#1\baselineskip}\item}
 
 % === 间距 ===
 \setlength{\parindent}{0pt}
